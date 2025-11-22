@@ -21,9 +21,9 @@ body {
   padding: 80px 0;
 }
 
-/* Navbar (NO TOCAR) */
+/* Navbar - fondo negro y letras blancas */
 .navbar {
-  background: var(--blanco) !important;
+  background: var(--negro) !important;
   border-bottom: 2px solid var(--verde);
 }
 
@@ -33,7 +33,7 @@ body {
 }
 
 .nav-link {
-  color: var(--negro) !important;
+  color: var(--blanco) !important;
   font-weight: 600;
 }
 
@@ -79,7 +79,7 @@ footer {
   color: var(--blanco);
 }
 
-/* WhatsApp Float (NO TOCAR) */
+/* WhatsApp Float */
 .whatsapp-float {
   position: fixed;
   bottom: 20px;
