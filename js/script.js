@@ -5,23 +5,34 @@ document.addEventListener('DOMContentLoaded', function() {
     const desktopMenu = document.getElementById('desktopMenu');
     const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
 
+    // Toggle del menú principal en móvil
     if (mobileMenuBtn) {
         mobileMenuBtn.addEventListener('click', function() {
             desktopMenu.classList.toggle('show');
         });
     }
 
+    // Toggle de los submenús (dropdowns) en móvil - ¡CORREGIDO Y MEJORADO!
     dropdownToggles.forEach(toggle => {
         toggle.addEventListener('click', function(e) {
+            // Evita que el enlace navegue si estamos en móvil
             if (window.innerWidth <= 992) {
                 e.preventDefault();
-                const dropdownMenu = this.nextElementSibling;
-                dropdownMenu.classList.toggle('show');
+                
+                // Usamos `parentElement` y `querySelector` para mayor robustez.
+                // Esto es más seguro que `nextElementSibling`.
+                const dropdownMenu = toggle.parentElement.querySelector('.dropdown-menu');
+                
+                if (dropdownMenu) {
+                    dropdownMenu.classList.toggle('show');
+                }
             }
         });
     });
 
+    // Cierra el menú si se hace clic fuera de él (¡CORREGIDO Y MEJORADO!)
     window.addEventListener('click', function(e) {
+        // Añadimos comprobaciones de seguridad para evitar errores.
         if (desktopMenu && mobileMenuBtn && !desktopMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
             desktopMenu.classList.remove('show');
         }
@@ -32,6 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const navLinks = document.querySelectorAll('.nav-link[href^="#"], .dropdown-item[href^="#"]');
     navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
+            // Permite que los dropdowns funcionen, pero evita la navegación si el href es solo "#"
             if (this.getAttribute('href') === '#') {
                 e.preventDefault();
                 return;
@@ -41,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const targetSection = document.getElementById(targetId);
 
             if (targetSection) {
-                e.preventDefault();
+                e.preventDefault(); // Prevenir el salto brusco
                 const navbarHeight = document.querySelector('.navbar').offsetHeight;
                 const targetPosition = targetSection.offsetTop - navbarHeight;
 
@@ -50,6 +62,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     behavior: 'smooth'
                 });
 
+                // Cierra el menú móvil si está abierto
                 if (desktopMenu) {
                     desktopMenu.classList.remove('show');
                 }
@@ -90,7 +103,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // --- Change Navbar Style on Scroll ---
     window.addEventListener('scroll', function() {
         const navbar = document.querySelector('.navbar');
-        if (navbar) {
+        if (navbar) { 
             if (window.scrollY > 50) {
                 navbar.style.padding = '5px 0';
             } else {
